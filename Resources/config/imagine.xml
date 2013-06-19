@@ -50,6 +50,7 @@
 
         <parameter key="liip_imagine.cache.resolver.web_path.class">Liip\ImagineBundle\Imagine\Cache\Resolver\WebPathResolver</parameter>
         <parameter key="liip_imagine.cache.resolver.no_cache.class">Liip\ImagineBundle\Imagine\Cache\Resolver\NoCacheResolver</parameter>
+        <parameter key="liip_imagine.cache.resolver.filesystem.class">Liip\ImagineBundle\Imagine\Cache\Resolver\FilesystemResolver</parameter>
 
         <!-- Form types -->
 
@@ -178,6 +179,17 @@
         <service id="liip_imagine.cache.resolver.no_cache" class="%liip_imagine.cache.resolver.no_cache.class%">
             <tag name="liip_imagine.cache.resolver" resolver="no_cache" />
             <argument type="service" id="filesystem" />
+        </service>
+
+        <service id="liip_imagine.cache.resolver.filesystem" class="%liip_imagine.cache.resolver.filesystem.class%">
+            <tag name="liip_imagine.cache.resolver" resolver="filesystem" />
+            <argument type="service" id="filesystem" />
+            <call method="setBasePath">
+                <argument type="string">%kernel.cache_dir%/imagine</argument>
+            </call>
+            <call method="setFolderPermissions">
+                <argument type="string">%liip_imagine.cache_mkdir_mode%</argument>
+            </call>
         </service>
 
         <!-- Form types -->
